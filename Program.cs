@@ -37,8 +37,41 @@ namespace Cinema
 {
     internal class Program
     {
+        // movies
+
+        public class SpyKid
+        {
+            public class Movie
+            {
+                public Nullable<int> ID = null;
+                public string name = string.Empty;
+                public string rating = string.Empty;
+                public string[ , ] seats = {{ "0", "0", "0", "0", "0", "0", "0", "0", "0" },
+                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"}};
+                                              //  DAY1      DAY2    DAY 3   DAY4    DAY5    DAY6    DAY7
+                public DateTime?[ , ] dates = { { null,     null,   null,   null,   null,   null,   null },
+                                                { null,     null,   null,   null,   null,   null,   null },
+                                                { null,     null,   null,   null,   null,   null,   null },
+                                                { null,     null,   null,   null,   null,   null,   null },
+                                                { null,     null,   null,   null,   null,   null,   null },};
+                
+            }
+            
+        }
+
+
+
         static void Main(string[] args)
         {
+
         }
     }
 }
