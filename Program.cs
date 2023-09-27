@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SQLite;
 
 namespace Cinema
 
@@ -39,31 +40,60 @@ namespace Cinema
     {
         // movies
 
-        public class SpyKid
+        public class Movie
         {
-            public class Movie
-            {
-                public Nullable<int> ID = null;
-                public string name = string.Empty;
-                public string rating = string.Empty;
-                public string[ , ] seats = {{ "0", "0", "0", "0", "0", "0", "0", "0", "0" },
-                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                                            { "0", "0", "0", "0", "0", "0", "0", "0", "0"}};
-                                              //  DAY1      DAY2    DAY 3   DAY4    DAY5    DAY6    DAY7
-                public DateTime?[ , ] dates = { { null,     null,   null,   null,   null,   null,   null },
-                                                { null,     null,   null,   null,   null,   null,   null },
-                                                { null,     null,   null,   null,   null,   null,   null },
-                                                { null,     null,   null,   null,   null,   null,   null },
-                                                { null,     null,   null,   null,   null,   null,   null },};
+            public Nullable<int> ID = null;
+            public string name = string.Empty;
+            public string rating = string.Empty;
+            public string[ , ] seats = {{ "0", "0", "0", "0", "0", "0", "0", "0", "0" },
+                                        { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                        { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                        { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                        { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                        { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                        { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                        { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                        { "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+                                        { "0", "0", "0", "0", "0", "0", "0", "0", "0"}};
+                                            //  DAY1      DAY2    DAY 3   DAY4    DAY5    DAY6    DAY7
+            public DateTime?[ , ] dates = { { null,     null,   null,   null,   null,   null,   null },
+                                            { null,     null,   null,   null,   null,   null,   null },
+                                            { null,     null,   null,   null,   null,   null,   null },
+                                            { null,     null,   null,   null,   null,   null,   null },
+                                            { null,     null,   null,   null,   null,   null,   null },};
                 
+        }
+            
+
+        public static void movie()
+        {
+            SQLiteConnection sqlite_conn;
+            sqlite_conn = new SQLiteConnection("C:\\Users\\AQ232596\\source\\repos\\Server");
+
+
+
+
+            sqlite_conn.Open();
+            sqlite_conn.();
+
+            Movie movie = new Movie();
+            List<string> list = new List<string>();
+
+
+
+
+            do
+            {
+                //Display all Movies from db
+
+                Console.WriteLine($"Welcome to the Cinema!\nThe available movies are\n1.{}");
             }
+        }
+
+
+        public static void Seats(int seats)
+        {
+            Movie movie = new Movie();
             
         }
 
@@ -71,6 +101,8 @@ namespace Cinema
 
         static void Main(string[] args)
         {
+            SQLiteConnection sqlite_conn;
+            sqlite_conn = new SQLiteConnection("C:\\Users\\AQ232596\\source\\repos\\Server");
 
         }
     }
