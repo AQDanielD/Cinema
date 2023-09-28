@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -105,34 +105,19 @@ namespace Cinema
 */
         static void Main()
         {
-            string connectionString = "Data Source=C:\\Users\\paulj\\source\\repos\\Cinema\\Server.db";
+            string connectionString = "Data Source=C:\\Users\\AQ232596\\source\\repos\\Cin\\Server.db";
 
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
 
                 // SQL statement to create the "Movies" table
-                string insertQuery = "SELECT * FROM Movies;";
+                string insertQuery = "CREATE TABLE Movies (ID int not null, Title varchar(255), Rating varchar(255), Seats varchar(255) deafault, Date&Time datetime null, Disabilities bool deafault, PRIMARY KEY (ID))";
 
 
                 using (SQLiteCommand command = new SQLiteCommand(insertQuery, connection))
                 {
-                    using (SQLiteDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            // Access and output data from each row
-                            int id = reader.GetInt32(0); // Assuming id is in the first column
-                            string title = reader.GetString(1); // Assuming title is in the second column
-                            string rating = reader.GetString(2); // Assuming rating is in the third column
-                            string seats = reader.GetString(3); // Assuming seats is in the fourth column
-                            DateTime dateTime = reader.GetDateTime(4); // Assuming date_time is in the fifth column
-                            string disabilities = reader.GetString(5); // Assuming disabilities is in the sixth column
-
-                            Console.WriteLine($"ID: {id}, Title: {title}, Rating: {rating}, Seats: {seats}, Date & Time: {dateTime}, Disabilities: {disabilities}");
-                            Console.ReadKey();
-                        }
-                    }
+                    command.ExecuteNonQuery();
                 }
                 // Continue with other database operations as needed.
             }
