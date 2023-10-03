@@ -71,7 +71,8 @@ namespace Cinema
         {
             SQLiteConnection sqlite_conn;
             sqlite_conn = new SQLiteConnection("C:\\Users\\AQ232596\\source\\repos\\Server");
-            conn.Open();
+            SQLiteConnection connection = new SQLiteConnection(sqlite_conn);
+            connection.Open();
             SQLiteDataReader sqlite_datareader;
             SQLiteCommand sqlite_cmd;
 
