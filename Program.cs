@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+using System.Data;
 
 namespace Cinema
 
@@ -41,9 +42,6 @@ namespace Cinema
 {
     internal class Program
     {
-        /*
-         *         // movies
-
         public class Movie
         {
             public Nullable<int> ID = null;
@@ -73,12 +71,9 @@ namespace Cinema
         {
             SQLiteConnection sqlite_conn;
             sqlite_conn = new SQLiteConnection("C:\\Users\\AQ232596\\source\\repos\\Server");
-
-
-
-
-            sqlite_conn.Open();
-            sqlite_conn.();
+            conn.Open();
+            SQLiteDataReader sqlite_datareader;
+            SQLiteCommand sqlite_cmd;
 
             Movie movie = new Movie();
             List<string> list = new List<string>();
@@ -102,25 +97,34 @@ namespace Cinema
         }
 
 
-*/
+
+        static void ReadData(SQLiteConnection conn)
+        {
+            conn.Open();
+            SQLiteDataReader sqlite_datareader;
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd.CommandText = "SELECT * FROM Movies";
+            
+            sqlite_datareader = sqlite_cmd.ExecuteReader();
+            DataTable dt = new DataTable(); 
+            while (sqlite_datareader.Read())
+            {
+                var myreader = sqlite_datareader.GetInt32(0);
+
+                Console.WriteLine(myreader);
+            }
+            conn.Close();
+        }
+
+
+
         static void Main()
         {
-            string connectionString = "Data Source=C:\\Users\\AQ232596\\source\\repos\\Cin\\Server.db";
+            string connectionString = "Data Source=C:\\Users\\AQ232596\\source\\repos\\Cinema\\Server.db";
 
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-            {
-                connection.Open();
-
-                // SQL statement to create the "Movies" table
-                string insertQuery = "CREATE TABLE Movies (ID int not null, Title varchar(255), Rating varchar(255), Seats varchar(255) deafault, Date&Time datetime null, Disabilities bool deafault, PRIMARY KEY (ID))";
-
-
-                using (SQLiteCommand command = new SQLiteCommand(insertQuery, connection))
-                {
-                    command.ExecuteNonQuery();
-                }
-                // Continue with other database operations as needed.
-            }
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            ReadData(connection);
         }
     }
 }
