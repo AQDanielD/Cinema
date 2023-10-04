@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Data;
+using System.Runtime.Remoting.Messaging;
 
 namespace Cinema
 
@@ -42,7 +43,7 @@ namespace Cinema
 {
     internal class Program
     {
-        public class Movie
+        public class MovieFormat
         {
             public Nullable<int> ID = null;
             public string name = string.Empty;
@@ -65,35 +66,48 @@ namespace Cinema
                                             { null,     null,   null,   null,   null,   null,   null },};
                 
         }
-            
 
-        public static void movie()
+
+        public static void Open(string cs)
         {
-            SQLiteConnection sqlite_conn;
-            sqlite_conn = new SQLiteConnection("C:\\Users\\AQ232596\\source\\repos\\Server");
-            SQLiteConnection connection = new SQLiteConnection(sqlite_conn);
-            connection.Open();
-            SQLiteDataReader sqlite_datareader;
-            SQLiteCommand sqlite_cmd;
-
-            Movie movie = new Movie();
-            List<string> list = new List<string>();
-
-
-
-
-            do
-            {
-                //Display all Movies from db
-
-                Console.WriteLine($"Welcome to the Cinema!\nThe available movies are\n1.{}");
-            }
+            SQLiteConnection con = new SQLiteConnection($"Data Source={cs};");
+            con.Open();
         }
 
+        public static void Close(string cs)
+        {
+            SQLiteConnection con = new SQLiteConnection($"Data Source={cs};");
+            con.Close();
+        }
+
+        public static void Movie(string cs)
+        {
+            SQLiteConnection con = new SQLiteConnection($"Data Source={cs};");
+            var stm = "INSERT INTO Movies (ID, Title, Rating, Seats, Date_Time, Disabilities) VALUES (3, 'Shrek', 'PG', 'b', '2023-10-10 14:00:00', False);";
+
+            var cmd = new SQLiteCommand(stm,con);
+
+
+
+            stm = "SELECT ID FROM Movies";
+
+            cmd = new SQLiteCommand(stm, con);
+
+            using (SQLiteDataReader rdr = cmd.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    Console.WriteLine($"{rdr.GetInt32(0)}");
+                }
+            }
+
+
+            List<string> list = new List<string>();
+            con.Close();
+        }
 
         public static void Seats(int seats)
         {
-            Movie movie = new Movie();
             
         }
 
@@ -122,10 +136,33 @@ namespace Cinema
 
         static void Main()
         {
-            string connectionString = "Data Source=C:\\Users\\AQ232596\\source\\repos\\Cinema\\Server.db";
+            string cs = "C:\\Users\\paulj\\source\\repos\\Cinema\\Server.db";
 
-            SQLiteConnection connection = new SQLiteConnection(connectionString);
-            ReadData(connection);
+
+            Open(cs);
+            Movie(cs);
+
+
+
+
+
+
+            Console.ReadKey();
+            Close(cs);
         }
     }
 }
+
+
+/*
+ *     READER
+ *             using (SQLiteDataReader rdr = cmd.ExecuteReader())
+            {
+                while (rdr.Read()) 
+                {
+                    Console.WriteLine($"{rdr.GetString(0)}");
+                }
+            }
+
+            List<string> list = new List<string>();
+*/
