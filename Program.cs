@@ -67,88 +67,105 @@ namespace Cinema
                 
         }
 
-
-        public static void Open(string cs)
+        public static void InsertMovie(string cs,string table,string title,string rating, string[ , ] seats,DateTime datetime,bool disabilities)
         {
             SQLiteConnection con = new SQLiteConnection($"Data Source={cs};");
             con.Open();
+            string insertStm = $"INSERT INTO {table} (title, rating, Seats, date_time, disabilities) VALUES ('{title}', '{rating}', '{seats}', '{datetime}', 0);";
+            using (var insertCmd = new SQLiteCommand(insertStm, con))
+            {
+                int insertResult = insertCmd.ExecuteNonQuery();
+                if (insertResult > 0)
+                {
+                    Console.WriteLine("Insertion successful.");
+                }
+                else
+                {
+                    Console.WriteLine("No rows were inserted.");
+                }
+            }
+
         }
 
-        public static void Close(string cs)
+        public static void CreateTable(string cs)
         {
             SQLiteConnection con = new SQLiteConnection($"Data Source={cs};");
-            con.Close();
+            con.Open();
+            string insertStm = $"" +
+                //$"PRAGMA foreign_keys = ON;" +
+                $"CREATE TABLE Movies (MovieID INTEGER PRIMARY KEY,Title TEXT,Genre TEXT,Duration INTEGER);" +
+                $"CREATE TABLE Showtimes (ShowtimeID INTEGER PRIMARY KEY,MovieID INTEGER,DateTime DATETIME,CinemaHall TEXT);" +
+                //$"FOREIGN KEY (MovieID) REFERENCES Movies (MovieID);" +
+                $"CREATE TABLE Seats (SeatID INTEGER PRIMARY KEY,RowNumber INTEGER,SeatNumber INTEGER,IsAvailable BOOLEAN,Price DECIMAL(10, 2),ShowtimeID INTEGER);" +
+                //$"FOREIGN KEY (ShowtimeID) REFERENCES Showtimes (ShowtimeID));" +
+                $"CREATE TABLE Reservations (ReservationID INTEGER PRIMARY KEY,ShowtimeID INTEGER,SeatID INTEGER,CustomerName TEXT,ReservationDate DATETIME);";
+                //$"FOREIGN KEY (ShowtimeID) REFERENCES Showtimes (ShowtimeID)," +
+                //$"FOREIGN KEY (SeatID) REFERENCES Seats (SeatID);";
+            using (var insertCmd = new SQLiteCommand(insertStm, con))
+            {
+                int insertResult = insertCmd.ExecuteNonQuery();
+                if (insertResult > 0)
+                {
+                    Console.WriteLine("Insertion successful.");
+                }
+                else
+                {
+                    Console.WriteLine("No rows were inserted.");
+                }
+            }
+        }
+
+        public static void DropTable(string cs,string table)
+        {
+            SQLiteConnection con = new SQLiteConnection($"Data Source={cs};");
+            con.Open();
+            string insertStm = $"DROP TABLE {table}";
+            using (var insertCmd = new SQLiteCommand(insertStm, con))
+            {
+                int insertResult = insertCmd.ExecuteNonQuery();
+                if (insertResult > 0)
+                {
+                    Console.WriteLine("Insertion successful.");
+                }
+                else
+                {
+                    Console.WriteLine("No rows were inserted.");
+                }
+            }
         }
 
         public static void Movie(string cs)
         {
             SQLiteConnection con = new SQLiteConnection($"Data Source={cs};");
-            var stm = "INSERT INTO Movies (ID, Title, Rating, Seats, Date_Time, Disabilities) VALUES (3, 'Shrek', 'PG', 'b', '2023-10-10 14:00:00', False);";
+            con.Open();
 
-            var cmd = new SQLiteCommand(stm,con);
+            var stm = $"SELECT Title FROM Movies WHERE date_time > datetime('now');";
 
+            var cmd = new SQLiteCommand(stm, con);
 
-
-            stm = "SELECT ID FROM Movies";
-
-            cmd = new SQLiteCommand(stm, con);
+            Console.WriteLine($"The showings for today are as shown:");
 
             using (SQLiteDataReader rdr = cmd.ExecuteReader())
             {
                 while (rdr.Read())
                 {
-                    Console.WriteLine($"{rdr.GetInt32(0)}");
+                    Console.WriteLine($"{rdr.GetString(0)}");
                 }
             }
 
 
-            List<string> list = new List<string>();
+
             con.Close();
         }
-
-        public static void Seats(int seats)
-        {
-            
-        }
-
-
-
-        static void ReadData(SQLiteConnection conn)
-        {
-            conn.Open();
-            SQLiteDataReader sqlite_datareader;
-            SQLiteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = "SELECT * FROM Movies";
-            
-            sqlite_datareader = sqlite_cmd.ExecuteReader();
-            DataTable dt = new DataTable(); 
-            while (sqlite_datareader.Read())
-            {
-                var myreader = sqlite_datareader.GetInt32(0);
-
-                Console.WriteLine(myreader);
-            }
-            conn.Close();
-        }
-
-
 
         static void Main()
         {
             string cs = "C:\\Users\\paulj\\source\\repos\\Cinema\\Server.db";
 
-
-            Open(cs);
-            Movie(cs);
-
-
-
-
-
+            CreateTable(cs);
 
             Console.ReadKey();
-            Close(cs);
+
         }
     }
 }
